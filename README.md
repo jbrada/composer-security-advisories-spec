@@ -19,7 +19,7 @@ Composer*, not *nothing is vulnerable*.
 | | |
 |---|---|
 | [`SPEC.md`](./SPEC.md) | The specification (RFC 2119): discovery, advisory object, both transports, client behaviour, security, compatibility, conformance tests, implementer notes. |
-| [`samples/`](./samples/README.md) | Example documents for a three-package repository in metadata mode, api-url mode and mirror mode, accepted by Composer 2.8.10. |
+| [`samples/`](./samples/README.md) | Example documents for a three-package repository in metadata mode, api-url mode and mirror mode, plus an advisory-only repository (no packages), accepted by Composer 2.10.3. |
 
 ## The feed
 
