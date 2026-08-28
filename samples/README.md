@@ -54,6 +54,18 @@ when there is no api-url), so a mirror gets Packagist's advisories for the
 packages it proxies without hosting any advisory data itself (cf. packagist.jp,
 mirrors.aliyun.com/composer).
 
+## `advisory-only/` — a repository that hosts no packages
+
+```
+packages.json         "packages": {} + metadata-url + available-packages: ["psr/log"] + security-advisories:{metadata:true}
+p2/psr/log.json       "packages": {} + one advisory for psr/log <1.1.1
+```
+
+Added next to packagist.org, this repository contributes only advisories:
+`psr/log` installs from packagist.org, `composer audit` reports
+`ACME-SA-2026-009`, and Composer ≥ 2.9 refuses to install `psr/log 1.1.0`
+(SPEC §11, test C10). The same works with `api-url` and no p2 files at all.
+
 ## Advisory object
 
 ```json

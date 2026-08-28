@@ -1,0 +1,6 @@
+{
+  "packages": {},
+  "metadata-url": "/p2/%package%.json",
+  "available-packages": ["psr/log"],
+  "security-advisories": { "metadata": true }
+}

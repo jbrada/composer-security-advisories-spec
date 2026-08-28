@@ -196,11 +196,14 @@ Requirements:
   applies to `packages` only; advisories are never minified.
 - R5.4 Only the main document (`%package%`) is consulted. The `%package%~dev`
   document MAY omit the key.
-- R5.5 A document MAY carry `security-advisories` with an empty or absent
-  `packages` entry for the name (Composer ≥ 2.5.2, PR #11257). This lets a
-  repository publish advisories for packages whose releases it does not host.
-  Use with care: an empty `packages` list for a name that another lower-
-  priority repository hosts can shadow that package during resolution.
+- R5.5 A document MAY carry `security-advisories` with an empty `packages`
+  object (`"packages": {}`) (Composer ≥ 2.5.2, PR #11257). This lets a
+  repository publish advisories for packages whose releases it does not host —
+  an **advisory-only repository** (§11). Verified with Composer 2.10.3: the
+  package then resolves from the next repository (e.g. packagist.org) while
+  the advisory is reported and blocks affected versions (§7.1). Do not list the
+  name with an empty version array (`"packages": {"acme/x": []}`) — declare no
+  entry at all.
 - R5.6 Documents SHOULD be served with `Last-Modified` and honour
   `If-Modified-Since` (`304`), as clients cache them (§7.6).
 
@@ -446,6 +449,7 @@ A repository conforms to this specification when:
 | C7 extra names (api-url) | endpoint returns an unrequested name | warning emitted, name ignored |
 | C8 update-time audit | `composer update --no-security-blocking` without `--no-audit` on C1 | "Found N security vulnerability advisor(y|ies)…" summary line |
 | C9 update-time blocking (≥ 2.9) | `composer update` with an exact requirement on the vulnerable version | resolution fails naming the advisory id; with a range (`^1.0`) the fixed version is locked; with `--no-security-blocking` the vulnerable one installs |
+| C10 advisory-only repository (§11) | repository with `"packages": {}` documents, added next to the repository that hosts the package | package installs from the other repository; C1, C2 and C9 hold for the advisory-only feed |
 
 ## 11. Implementer notes (informative)
 
@@ -466,6 +470,22 @@ after every `satis build` (the build rewrites both): add
 **Dynamic server (Repman-style, in-house registry):** implement api-url backed by
 an indexed table `(package_name, advisory)`; optionally also emit metadata mode
 for static-cache friendliness. Remember the M + A precedence (§7.4).
+
+**Advisory-only repository (no packages):** a repository may publish nothing
+but advisories — e.g. a security team or marketplace curating advisories for
+packages that install from packagist.org or a vendor repository. Root document:
+`{"packages": {}, "metadata-url": "/p2/%package%.json", "available-packages":
+[<names with advisories>], "security-advisories": {"metadata": true}}` and one
+`p2/<vendor>/<name>.json` per listed name containing `"packages": {}` plus the
+`security-advisories` array (example: [`samples/advisory-only/`](./samples/advisory-only/)).
+With `api-url` instead of `metadata`, no p2 files are needed at all; Composer's
+p2 requests for the listed names return 404, which it treats as "not hosted
+here". Consumers add the repository next to their normal ones; `metadata-url`
+is still REQUIRED (R3.1) and `available-packages`/`-patterns` limits both the
+names queried and the names Composer probes for packages. Verified with
+Composer 2.10.3 in both transports: `psr/log 1.1.0` installed from packagist.org,
+`composer audit` reported the repository's advisory (exit 1), an exact
+requirement on 1.1.0 was blocked, `^1.1` resolved to 1.1.4.
 
 **Mirror / proxy of packagist.org:** set `"api-url": "https://packagist.org/api/security-advisories/"`
 (and `metadata: true` if you embed advisories for your own packages). Composer

@@ -1,0 +1,16 @@
+{
+  "packages": {},
+  "security-advisories": [
+    {
+      "advisoryId": "ACME-SA-2026-009",
+      "packageName": "psr/log",
+      "affectedVersions": "<1.1.1",
+      "title": "Example advisory published by an advisory-only repository for a package hosted on packagist.org",
+      "cve": null,
+      "link": "https://security.example.com/advisories/ACME-SA-2026-009",
+      "reportedAt": "2026-08-28 15:00:00",
+      "severity": "medium",
+      "sources": [ { "name": "acme-security-team", "remoteId": "ACME-SA-2026-009" } ]
+    }
+  ]
+}
