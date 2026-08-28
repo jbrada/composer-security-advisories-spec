@@ -1,0 +1,27 @@
+{
+  "packages": {
+    "acme/vuln-ext": [
+      {
+        "name": "acme/vuln-ext",
+        "version": "1.0.0 1.0.1",
+        "version_normalized": "1.0.0 1.0.1.0",
+        "type": "library",
+        "license": ["MIT"],
+        "description": "Sample package hosted on packages.example.com",
+        "dist": {
+          "type": "zip",
+          "url": "https://packages.example.com/dist/vuln-ext/vuln-ext-1.0.0 1.0.1.zip",
+          "reference": "1.0.0 1.0.1",
+          "shasum": ""
+        },
+        "source": {
+          "type": "git",
+          "url": "https://git.example.com/acme/vuln-ext.git",
+          "reference": "v1.0.0 1.0.1"
+        },
+        "autoload": { "psr-4": { "Acme\\VulnExt\\": "src/" } },
+        "time": "2026-01-02T10:00:00+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "packages": {
+    "acme/clean-lib": [
+      {
+        "name": "acme/clean-lib",
+        "version": "3.4.0",
+        "version_normalized": "3.4.0.0",
+        "type": "library",
+        "license": ["MIT"],
+        "description": "Sample package hosted on packages.example.com",
+        "dist": {
+          "type": "zip",
+          "url": "https://packages.example.com/dist/clean-lib/clean-lib-3.4.0.zip",
+          "reference": "3.4.0",
+          "shasum": ""
+        },
+        "source": {
+          "type": "git",
+          "url": "https://git.example.com/acme/clean-lib.git",
+          "reference": "v3.4.0"
+        },
+        "autoload": { "psr-4": { "Acme\\CleanLib\\": "src/" } },
+        "time": "2026-01-01T10:00:00+00:00"
+      }
+    ]
+  }
+}

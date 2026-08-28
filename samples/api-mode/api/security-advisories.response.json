@@ -1,0 +1,49 @@
+{
+  "advisories": {
+    "acme/vuln-ext": [
+      {
+        "advisoryId": "ACME-SA-2026-001",
+        "packageName": "acme/vuln-ext",
+        "affectedVersions": ">=1.0.0,<1.0.1",
+        "title": "acme/vuln-ext: unauthenticated command execution in Runner::run()",
+        "cve": "CVE-2026-00000",
+        "link": "https://security.example.com/advisories/ACME-SA-2026-001",
+        "reportedAt": "2026-08-28 12:00:00",
+        "severity": "high",
+        "sources": [
+          { "name": "acme-security-team", "remoteId": "ACME-SA-2026-001" },
+          { "name": "GitHub", "remoteId": "GHSA-xxxx-yyyy-zzzz" }
+        ]
+      }
+    ],
+    "acme/http-client": [
+      {
+        "advisoryId": "ACME-SA-2025-004",
+        "packageName": "acme/http-client",
+        "affectedVersions": ">=2.0.0,<2.1.3",
+        "title": "acme/http-client: SSRF via unvalidated redirect Location header",
+        "cve": "CVE-2025-11111",
+        "link": "https://security.example.com/advisories/ACME-SA-2025-004",
+        "reportedAt": "2025-11-03 09:15:00",
+        "severity": "critical",
+        "sources": [
+          { "name": "acme-security-team", "remoteId": "ACME-SA-2025-004" }
+        ]
+      },
+      {
+        "advisoryId": "ACME-SA-2026-002",
+        "packageName": "acme/http-client",
+        "affectedVersions": "<2.2.0",
+        "title": "acme/http-client: verbose exception messages leak proxy credentials into logs",
+        "cve": null,
+        "link": "https://security.example.com/advisories/ACME-SA-2026-002",
+        "reportedAt": "2026-02-14 16:40:00",
+        "severity": "low",
+        "sources": [
+          { "name": "acme-security-team", "remoteId": "ACME-SA-2026-002" }
+        ]
+      }
+    ],
+    "acme/clean-lib": []
+  }
+}

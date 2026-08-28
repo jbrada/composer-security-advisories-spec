@@ -1,0 +1,6 @@
+POST /api/security-advisories HTTP/1.1
+Host: packages.example.com
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Composer/2.8.10 (...)
+
+packages[]=acme/vuln-ext&packages[]=acme/http-client&packages[]=acme/clean-lib

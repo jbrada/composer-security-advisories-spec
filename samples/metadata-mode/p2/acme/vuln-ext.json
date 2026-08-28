@@ -1,0 +1,64 @@
+{
+  "packages": {
+    "acme/vuln-ext": [
+      {
+        "name": "acme/vuln-ext",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "type": "library",
+        "license": ["MIT"],
+        "description": "Sample package hosted on packages.example.com",
+        "dist": {
+          "type": "zip",
+          "url": "https://packages.example.com/dist/vuln-ext/vuln-ext-1.0.0.zip",
+          "reference": "1.0.0",
+          "shasum": ""
+        },
+        "source": {
+          "type": "git",
+          "url": "https://git.example.com/acme/vuln-ext.git",
+          "reference": "v1.0.0"
+        },
+        "autoload": { "psr-4": { "Acme\\VulnExt\\": "src/" } },
+        "time": "2026-01-01T10:00:00+00:00"
+      },
+      {
+        "name": "acme/vuln-ext",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "type": "library",
+        "license": ["MIT"],
+        "description": "Sample package hosted on packages.example.com",
+        "dist": {
+          "type": "zip",
+          "url": "https://packages.example.com/dist/vuln-ext/vuln-ext-1.0.1.zip",
+          "reference": "1.0.1",
+          "shasum": ""
+        },
+        "source": {
+          "type": "git",
+          "url": "https://git.example.com/acme/vuln-ext.git",
+          "reference": "v1.0.1"
+        },
+        "autoload": { "psr-4": { "Acme\\VulnExt\\": "src/" } },
+        "time": "2026-01-02T10:00:00+00:00"
+      }
+    ]
+  },
+  "security-advisories": [
+    {
+        "advisoryId": "ACME-SA-2026-001",
+        "packageName": "acme/vuln-ext",
+        "affectedVersions": ">=1.0.0,<1.0.1",
+        "title": "acme/vuln-ext: unauthenticated command execution in Runner::run()",
+        "cve": "CVE-2026-00000",
+        "link": "https://security.example.com/advisories/ACME-SA-2026-001",
+        "reportedAt": "2026-08-28 12:00:00",
+        "severity": "high",
+        "sources": [
+          { "name": "acme-security-team", "remoteId": "ACME-SA-2026-001" },
+          { "name": "GitHub", "remoteId": "GHSA-xxxx-yyyy-zzzz" }
+        ]
+      }
+  ]
+}
