@@ -313,9 +313,16 @@ For each repository advertising a feed, the client builds a map
 
 Then:
 
-1. If the repository declares `available-packages`/`available-package-patterns`,
+1. If the consumer configured `only` / `exclude` on the repository entry in
+   `composer.json`, names not allowed by those rules are dropped first
+   (`FilterRepository::getSecurityAdvisories()`); with nothing left, no
+   advisory request (p2 GET or api-url POST) is made — only the root document
+   is read. The filters therefore gate advisories
+   and blocking exactly as they gate packages: `"exclude": ["*"]` or a
+   non-matching `only` silences the feed completely (Composer ≥ 2.5.2, #11281).
+2. If the repository declares `available-packages`/`available-package-patterns`,
    names not matching are **dropped for this repository**.
-2. In metadata mode, platform packages (`php`, `ext-*`, `lib-*`, `composer-*`)
+3. In metadata mode, platform packages (`php`, `ext-*`, `lib-*`, `composer-*`)
    and `__root__` are skipped.
 
 Consequence for publishers: a repository is only ever asked about names it
@@ -450,6 +457,7 @@ A repository conforms to this specification when:
 | C8 update-time audit | `composer update --no-security-blocking` without `--no-audit` on C1 | "Found N security vulnerability advisor(y|ies)…" summary line |
 | C9 update-time blocking (≥ 2.9) | `composer update` with an exact requirement on the vulnerable version | resolution fails naming the advisory id; with a range (`^1.0`) the fixed version is locked; with `--no-security-blocking` the vulnerable one installs |
 | C10 advisory-only repository (§11) | repository with `"packages": {}` documents, added next to the repository that hosts the package | package installs from the other repository; C1, C2 and C9 hold for the advisory-only feed |
+| C11 consumer filters | repository entry with `"exclude": ["<name>"]` (or an `only` that does not match) | no advisory and no blocking for that name from this repository; with `only`/`exclude` that allow the name, C1 and C9 hold |
 
 ## 11. Implementer notes (informative)
 
@@ -482,7 +490,10 @@ With `api-url` instead of `metadata`, no p2 files are needed at all; Composer's
 p2 requests for the listed names return 404, which it treats as "not hosted
 here". Consumers add the repository next to their normal ones; `metadata-url`
 is still REQUIRED (R3.1) and `available-packages`/`-patterns` limits both the
-names queried and the names Composer probes for packages. Verified with
+names queried and the names Composer probes for packages. A consumer-side
+`only`/`exclude` on the entry applies to the advisories too (§7.2): an
+advisory-only repository with `"exclude": ["*"]` contributes nothing, and
+`"only": ["psr/*"]` restricts its advisories to those names. Verified with
 Composer 2.10.3 in both transports: `psr/log 1.1.0` installed from packagist.org,
 `composer audit` reported the repository's advisory (exit 1), an exact
 requirement on 1.1.0 was blocked, `^1.1` resolved to 1.1.4.
@@ -506,6 +517,7 @@ mirrors.aliyun.com do.
 | root-document parsing, R3.3 check | `ComposerRepository::loadRootServerFile()` 1537–1543 |
 | `hasSecurityAdvisories()` | `ComposerRepository` 691 |
 | root cache 600 s for audits | `ComposerRepository` 699 (`loadRootServerFile(600)`) |
+| name filtering by consumer `only`/`exclude` | `FilterRepository::getSecurityAdvisories()` 204–217, `isAllowed()` 258–273 |
 | name filtering by `available-packages` | `ComposerRepository` 710–716, `lazyProvidersRepoContains()` 2050 |
 | full-advisory requirement | `ComposerRepository` 727 |
 | metadata transport (M / M+A precedence) | `ComposerRepository` 736–770 |
