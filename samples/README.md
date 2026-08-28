@@ -36,7 +36,8 @@ works from any static host (S3, GitHub Pages, nginx, a Satis output dir).
 ```
 packages.json                          security-advisories:{api-url: https://packages.example.com/api/security-advisories}
 p2/acme/*.json                         package metadata only, no advisories inside
-api/security-advisories.request.txt    what Composer sends (form-encoded packages[]=..., batches of <= 500 names)
+api/security-advisories.request.txt    what Composer sends: one POST, body as built by PHP http_build_query
+                                       (decoded: packages[]=acme/vuln-ext&packages[]=acme/http-client&packages[]=acme/clean-lib)
 api/security-advisories.response.json  what the endpoint must answer: {"advisories": {"<name>": [ ... ]}}
 ```
 
